@@ -101,7 +101,7 @@ public class ParkingLotTest {
         assertNull(parkingLot.park(new Car("A234999")));
     }
 
-    //Case 1 - Given a parking lot, and an unrecognized ticket, When fetch the car, Then return nothing with error message "Unrecognized parking ticket.”
+    //Case 7 - Given a parking lot, and an unrecognized ticket, When fetch the car, Then return nothing with error message "Unrecognized parking ticket.”
     @Test
     void should_return_null_and_error_message_when_fetch_with_unrecognized_ticket() {
         ParkingLot parkingLot = new ParkingLot();
@@ -111,7 +111,7 @@ public class ParkingLotTest {
         assertNull(parkingLot.fetch(unrecognizedTicket));
         assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
     }
-    //Case 2 - Given a parking lot, and a used ticket, When fetch the car, Then return nothing with error message "Unrecognized parking ticket."
+    //Case 8 - Given a parking lot, and a used ticket, When fetch the car, Then return nothing with error message "Unrecognized parking ticket."
     @Test
     void should_return_null_and_error_message_when_fetch_with_used_ticket() {
         ParkingLot parkingLot = new ParkingLot();
@@ -121,7 +121,7 @@ public class ParkingLotTest {
         assertNull(parkingLot.fetch(ticket));
         assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
     }
-    //Case 3 - Given a parking lot without any position, and a car, When park the car, Then return nothing with error message "No available position."
+    //Case 9 - Given a parking lot without any position, and a car, When park the car, Then return nothing with error message "No available position."
     @Test
     void should_return_null_and_error_message_when_park_with_no_position() {
         ParkingLot parkingLot = new ParkingLot();

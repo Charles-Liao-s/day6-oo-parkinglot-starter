@@ -10,6 +10,9 @@ public class ParkingLot {
     private Integer capacity = 10;
 
     public Ticket park(Car car) {
+        if (ticketsCars.size() >= capacity) {
+            System.out.println("No available position.");
+        }
         return IntStream.rangeClosed(1, capacity).boxed()
                 .filter(position -> ticketsCars.keySet().stream().noneMatch(ticket -> ticket.getPosition().equals(position)))
                 .findFirst()
