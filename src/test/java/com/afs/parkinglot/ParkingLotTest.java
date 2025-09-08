@@ -1,11 +1,21 @@
 package com.afs.parkinglot;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
 
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    @BeforeEach
+    void setup() {
+        System.setOut(new PrintStream(outputStream));
+    }
 
     //Case 1 -
     // Given a parking lot, and a car,
@@ -90,4 +100,36 @@ public class ParkingLotTest {
         }
         assertNull(parkingLot.park(new Car("A234999")));
     }
+
+    //Case 1 - Given a parking lot, and an unrecognized ticket, When fetch the car, Then return nothing with error message "Unrecognized parking ticket.”
+    @Test
+    void should_return_null_and_error_message_when_fetch_with_unrecognized_ticket() {
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car("A234123");
+        parkingLot.park(car);
+        Ticket unrecognizedTicket = new Ticket(new Car("B234123"), 1, parkingLot);
+        assertNull(parkingLot.fetch(unrecognizedTicket));
+        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+    }
+    //Case 2 - Given a parking lot, and a used ticket, When fetch the car, Then return nothing with error message "Unrecognized parking ticket."
+    @Test
+    void should_return_null_and_error_message_when_fetch_with_used_ticket() {
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car("A234123");
+        Ticket ticket = parkingLot.park(car);
+        assertEquals(car, parkingLot.fetch(ticket));
+        assertNull(parkingLot.fetch(ticket));
+        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+    }
+    //Case 3 - Given a parking lot without any position, and a car, When park the car, Then return nothing with error message "No available position."
+    @Test
+    void should_return_null_and_error_message_when_park_with_no_position() {
+        ParkingLot parkingLot = new ParkingLot();
+        for (int i = 0; i < 10; i++) {
+            parkingLot.park(new Car("A23412" + i));
+        }
+        assertNull(parkingLot.park(new Car("A234999")));
+        assertTrue(outputStream.toString().contains("No available position."));
+    }
+
 }
