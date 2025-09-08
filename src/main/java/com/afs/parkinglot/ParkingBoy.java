@@ -2,6 +2,7 @@ package com.afs.parkinglot;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class ParkingBoy {
     private final List<ParkingLot> parkingLots;
 
@@ -27,6 +28,7 @@ public class ParkingBoy {
         System.out.println("No available position.");
         return null;
     }
+
     public Car fetch(Ticket ticket) {
         if (ticket == null) {
             System.out.println("Unrecognized parking ticket.");
