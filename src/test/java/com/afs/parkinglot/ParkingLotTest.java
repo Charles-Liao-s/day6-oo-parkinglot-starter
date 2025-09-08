@@ -148,4 +148,47 @@ public class ParkingLotTest {
         assertNull(fetched);
         assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
     }
+
+    @Test
+    void should_park_car_to_second_lot_when_first_is_full() {
+        ParkingLot lot1 = new ParkingLot();
+        ParkingLot lot2 = new ParkingLot();
+        ParkingBoy boy = new ParkingBoy(lot1, lot2);
+        for (int i = 0; i < 10; i++) {
+            boy.park(new Car("A" + i));
+        }
+        Ticket ticket = boy.park(new Car("B1"));
+        assertNotNull(ticket);
+        Car fetched = boy.fetch(ticket);
+        assertNotNull(fetched);
+        assertEquals("B1", fetched.getCarNumber());
+    }
+
+    @Test
+    void should_return_null_when_all_lots_are_full() {
+        ParkingLot lot1 = new ParkingLot();
+        ParkingLot lot2 = new ParkingLot();
+        ParkingBoy boy = new ParkingBoy(lot1, lot2);
+        for (int i = 0; i < 20; i++) {
+            boy.park(new Car("A" + i));
+        }
+        Ticket ticket = boy.park(new Car("B1"));
+        assertNull(ticket);
+        assertTrue(outputStream.toString().contains("No available position."));
+    }
+
+    @Test
+    void should_fetch_car_from_correct_lot_with_valid_ticket() {
+        ParkingLot lot1 = new ParkingLot();
+        ParkingLot lot2 = new ParkingLot();
+        ParkingBoy boy = new ParkingBoy(lot1, lot2);
+        Car car1 = new Car("A1");
+        Ticket ticket1 = boy.park(car1);
+        Car car2 = new Car("B1");
+        Ticket ticket2 = boy.park(car2);
+        Car fetched1 = boy.fetch(ticket1);
+        Car fetched2 = boy.fetch(ticket2);
+        assertEquals(car1, fetched1);
+        assertEquals(car2, fetched2);
+    }
 }
